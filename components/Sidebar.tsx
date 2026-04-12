@@ -1,5 +1,6 @@
 import { Note } from "@/types/note";
 import { NoteCard } from "./NoteCard";
+import { NotebookPen } from "lucide-react";
 
 interface SidebarProps {
   notes: Note[];
@@ -23,6 +24,15 @@ export function Sidebar({
 
   return (
     <div className="w-full h-full flex flex-col hide-scrollbar py-2 pt-6">
+      <div className="px-6 mb-6 flex items-center gap-2.5">
+        <div className="w-6 h-6 rounded bg-[#E5B73B] flex items-center justify-center shadow-sm">
+          <NotebookPen size={14} className="text-black" strokeWidth={2.5} />
+        </div>
+        <span className="font-semibold text-[15px] text-gray-900 dark:text-white tracking-tight">
+          Smart Notes
+        </span>
+      </div>
+
       <div className="px-4">
         <h2 className="text-[11px] font-semibold text-gray-500 dark:text-[#8E8E93] mb-2 px-2 uppercase tracking-wider">
           Notes

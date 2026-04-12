@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --color-background: var(--background);
@@ -12,11 +13,9 @@
   --foreground: #0f172a;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1E1E1E;
-    --foreground: #F5F5F5;
-  }
+.dark {
+  --background: #1E1E1E;
+  --foreground: #F5F5F5;
 }
 
 body {
