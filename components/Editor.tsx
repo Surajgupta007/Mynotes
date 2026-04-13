@@ -9,6 +9,14 @@ import { useTheme } from "next-themes";
 // ReactQuill must be loaded dynamically
 const ReactQuill = dynamic(async () => {
   const { default: RQ, Quill } = await import("react-quill-new");
+  
+  // Provide Quill globally for the image resize module
+  (window as any).Quill = Quill;
+
+  // Import and register the image resize module
+  const { default: ImageResize } = await import("quill-image-resize-module-react");
+  Quill.register("modules/imageResize", ImageResize);
+
   const Font = Quill.import("formats/font");
   Font.whitelist = ["inter", "roboto", "lora", "fira-code"];
   Quill.register(Font, true);
@@ -34,6 +42,9 @@ const QUILL_MODULES = {
     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
     ['image', 'clean']                                         
   ],
+  imageResize: {
+    modules: ['Resize', 'DisplaySize', 'Toolbar']
+  }
 };
 
 const QUILL_FORMATS = [
@@ -41,7 +52,8 @@ const QUILL_FORMATS = [
   'bold', 'italic', 'underline', 'strike',
   'color', 'background',
   'list', 'bullet',
-  'image'
+  'image',
+  'align', 'width', 'style'
 ];
 
 export function Editor({ note, onUpdate, onDelete, onCreateNote, searchQuery, onSearchChange }: EditorProps) {
