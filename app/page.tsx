@@ -5,18 +5,29 @@ import { Sidebar } from "@/components/Sidebar";
 import { Editor } from "@/components/Editor";
 import { useState, useEffect } from "react";
 import { Sparkles } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  const { notes, createNote, updateNote, deleteNote, isLoaded } = useNotes();
+  const { data: session, status } = useSession();
+  const { notes, addNote, updateNote, deleteNote, isLoading } = useNotes();
   const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const activeNote = notes.find((note) => note.id === selectedNoteId) || null;
 
-  const handleCreateNote = () => {
-    const newId = createNote();
-    setSelectedNoteId(newId);
-    setSearchQuery(""); // clear search on create
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      redirect("/login");
+    }
+  }, [status]);
+
+  const handleCreateNote = async () => {
+    const newId = await addNote();
+    if (newId) {
+      setSelectedNoteId(newId);
+      setSearchQuery("");
+    }
   };
 
   const handleDeleteNote = (id: string) => {
@@ -28,12 +39,10 @@ export default function Home() {
     }
   };
 
-  if (!isLoaded) {
+  if (status === "loading" || status === "unauthenticated" || isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#1E1E1E] transition-colors">
-        <div className="animate-pulse flex items-center gap-3 text-gray-500">
-          Loading...
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-[#f9f9f9] dark:bg-[#0A0A0B] transition-colors">
+        <div className="w-8 h-8 rounded-full border-2 border-gray-200 border-t-[#E5B73B] animate-spin"></div>
       </div>
     );
   }
@@ -75,7 +84,7 @@ export default function Home() {
              <div className="w-16 h-16 mb-4 rounded-full bg-gray-100 dark:bg-[#2C2C2E] flex items-center justify-center">
                  <Sparkles size={24} className="opacity-40" />
              </div>
-             <p className="text-sm font-medium">No Note Selected</p>
+             <p className="text-sm font-medium">Select or create a note to begin</p>
           </div>
         )}
       </div>

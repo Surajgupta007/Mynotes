@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Roboto, Lora, Fira_Code } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { AuthProvider } from "@/components/Providers";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const roboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"], variable: "--font-roboto" });
@@ -21,14 +22,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${roboto.variable} ${lora.variable} ${firaCode.variable} font-sans h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-white dark:bg-[#1E1E1E] text-slate-900 dark:text-[#F5F5F5] selection:bg-[#E5B73B]/30">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

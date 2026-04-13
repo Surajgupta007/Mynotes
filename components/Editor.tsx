@@ -32,7 +32,7 @@ const QUILL_MODULES = {
     ['bold', 'italic', 'underline', 'strike'],        
     [{ 'color': [] }, { 'background': [] }],          
     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-    ['clean']                                         
+    ['image', 'clean']                                         
   ],
 };
 
@@ -40,7 +40,8 @@ const QUILL_FORMATS = [
   'header', 'font', 'size',
   'bold', 'italic', 'underline', 'strike',
   'color', 'background',
-  'list', 'bullet'
+  'list', 'bullet',
+  'image'
 ];
 
 export function Editor({ note, onUpdate, onDelete, onCreateNote, searchQuery, onSearchChange }: EditorProps) {
@@ -111,6 +112,32 @@ export function Editor({ note, onUpdate, onDelete, onCreateNote, searchQuery, on
     a.click();
     URL.revokeObjectURL(url);
     setShowOptions(false);
+  };
+
+  const handleDownloadPDF = async () => {
+    try {
+      // Dynamic import to prevent SSR issues
+      const html2pdf = (await import("html2pdf.js")).default;
+      
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = `
+        <div style="font-family: sans-serif; padding: 20px; color: #000;">
+          <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">${title}</h1>
+          ${content}
+        </div>
+      `;
+      
+      html2pdf().from(tempDiv).set({
+        margin: 1,
+        filename: `${title || 'Note'}.pdf`,
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      }).save();
+      
+      setShowOptions(false);
+    } catch (e) {
+      console.error("Failed to generate PDF", e);
+    }
   };
 
   const formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -197,19 +224,26 @@ export function Editor({ note, onUpdate, onDelete, onCreateNote, searchQuery, on
 
             {/* Options Dropdown Map */}
             {showOptions && (
-              <div className="absolute top-10 right-32 w-48 bg-white dark:bg-[#2C2C2E] border border-gray-200 dark:border-[#3A3A3C] shadow-xl rounded-lg py-1 z-50 animate-fade-in">
+              <div className="absolute top-10 right-32 w-56 bg-white dark:bg-[#2C2C2E] border border-gray-200 dark:border-[#3A3A3C] shadow-xl rounded-lg py-1 z-50 animate-fade-in">
                 <div className="px-3 py-1.5 border-b border-gray-100 dark:border-[#3A3A3C]">
-                  <p className="text-[11px] font-semibold text-gray-400 dark:text-[#8E8E93] uppercase tracking-wider">Download Note</p>
+                  <p className="text-[11px] font-semibold text-gray-400 dark:text-[#8E8E93] uppercase tracking-wider">Export Document</p>
                 </div>
                 <button
+                  onClick={handleDownloadPDF}
+                 className="w-full text-left px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#3A3A3C] transition-colors"
+                >
+                  📄 Download as PDF
+                </button>
+                <div className="border-t border-gray-100 dark:border-[#3A3A3C] my-1"></div>
+                <button
                   onClick={() => handleDownload('txt')}
-                 className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#3A3A3C] transition-colors"
+                 className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3A3C] transition-colors"
                 >
                   Download as Text (.txt)
                 </button>
                 <button
                   onClick={() => handleDownload('html')}
-                 className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#3A3A3C] transition-colors"
+                 className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3A3C] transition-colors"
                 >
                   Download as HTML (.html)
                 </button>
