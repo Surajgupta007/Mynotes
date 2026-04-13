@@ -61,6 +61,7 @@ export default function Home() {
           onSelectNote={setSelectedNoteId}
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
+          onCreateNote={handleCreateNote}
         />
       </div>
 
@@ -84,7 +85,13 @@ export default function Home() {
              <div className="w-16 h-16 mb-4 rounded-full bg-gray-100 dark:bg-[#2C2C2E] flex items-center justify-center">
                  <Sparkles size={24} className="opacity-40" />
              </div>
-             <p className="text-sm font-medium">Select or create a note to begin</p>
+             <p className="text-sm font-medium mb-4">Select or create a note to begin</p>
+             <button
+               onClick={handleCreateNote}
+               className="px-4 py-2 bg-[#E5B73B] text-black text-sm font-medium rounded-lg hover:bg-[#d4a733] transition-colors shadow-sm"
+             >
+               Create New Note
+             </button>
           </div>
         )}
       </div>

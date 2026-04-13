@@ -1,6 +1,6 @@
 import { Note } from "@/types/note";
 import { NoteCard } from "./NoteCard";
-import { NotebookPen } from "lucide-react";
+import { NotebookPen, Plus } from "lucide-react";
 
 interface SidebarProps {
   notes: Note[];
@@ -8,6 +8,7 @@ interface SidebarProps {
   onSelectNote: (id: string) => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
+  onCreateNote: () => void;
 }
 
 export function Sidebar({
@@ -15,6 +16,7 @@ export function Sidebar({
   selectedNoteId,
   onSelectNote,
   searchQuery,
+  onCreateNote,
 }: SidebarProps) {
   const filteredNotes = notes.filter(
     (note) =>
@@ -33,10 +35,17 @@ export function Sidebar({
         </span>
       </div>
 
-      <div className="px-4">
-        <h2 className="text-[11px] font-semibold text-gray-500 dark:text-[#8E8E93] mb-2 px-2 uppercase tracking-wider">
+      <div className="px-4 flex items-center justify-between mb-2">
+        <h2 className="text-[11px] font-semibold text-gray-500 dark:text-[#8E8E93] px-2 uppercase tracking-wider">
           Notes
         </h2>
+        <button 
+          onClick={onCreateNote}
+          className="p-1 mr-2 rounded-md hover:bg-gray-200 dark:hover:bg-[#2C2C2E] transition-colors"
+          title="Create New Note"
+        >
+          <Plus size={16} className="text-gray-500 dark:text-[#8E8E93]" />
+        </button>
       </div>
 
       <div className="flex-1 overflow-y-auto px-4 py-1 space-y-[2px]">
