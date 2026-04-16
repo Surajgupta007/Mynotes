@@ -10,6 +10,7 @@ export function NoteCard({ note, isSelected, onClick }: NoteCardProps) {
   return (
     <button
       onClick={onClick}
+      title={note.title || "New Note"}
       className={`group w-full text-left px-3 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 cursor-pointer relative overflow-hidden ${
         isSelected
           ? "bg-gradient-to-r from-amber-500/10 to-orange-500/5 dark:from-amber-500/20 dark:to-orange-500/5 text-gray-900 dark:text-white shadow-sm ring-1 ring-amber-500/20 dark:ring-amber-500/30 font-semibold"
