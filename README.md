@@ -1,5 +1,8 @@
 # 📝 Smart Notes (Mynotes)
 
+![Next.js](https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
 A beautiful, high-performance note-taking application specifically designed to seamlessly replicate the **macOS Apple Notes in Dark Mode** aesthetic. Built for the modern web utilizing Next.js, Tailwind CSS, and a robust Rich Text editing core.
 
 ## ✨ Features
