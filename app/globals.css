@@ -23,6 +23,10 @@ body {
   color: var(--foreground);
 }
 
+::selection {
+  background-color: rgba(245, 158, 11, 0.2);
+}
+
 /* Custom Webkit Scrollbar for Premium Feel */
 ::-webkit-scrollbar {
   width: 6px;
