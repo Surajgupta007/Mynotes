@@ -13,7 +13,7 @@ export function SearchBar({ query, onChange }: SearchBarProps) {
       </div>
       <input
         type="text"
-        placeholder="Search"
+        placeholder="Search notes..."
         value={query}
         onChange={(e) => onChange(e.target.value)}
         className="block w-full pl-8 pr-3 py-1.5 text-[13px] bg-gray-100 dark:bg-[#2C2C2E]/80 border border-transparent rounded-[6px] placeholder-gray-400 dark:placeholder-[#8E8E93] text-gray-900 dark:text-white focus:outline-none focus:bg-white dark:focus:bg-[#1E1E1E] focus:border-indigo-500/30 transition-all"
