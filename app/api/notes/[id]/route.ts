@@ -33,7 +33,8 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
       id: updatedNote._id.toString(),
       title: updatedNote.title,
       content: updatedNote.content,
-      updatedAt: updatedNote.updatedAt.toISOString()
+      updatedAt: updatedNote.updatedAt.toISOString(),
+      isPinned: updatedNote.isPinned || false
     });
   } catch (error) {
     console.error("Update note error:", error);

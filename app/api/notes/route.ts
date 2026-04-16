@@ -22,7 +22,8 @@ export async function GET() {
       id: note._id.toString(),
       title: note.title,
       content: note.content,
-      updatedAt: note.updatedAt.toISOString()
+      updatedAt: note.updatedAt.toISOString(),
+      isPinned: note.isPinned || false
     }));
 
     return NextResponse.json(mappedNotes);
@@ -54,7 +55,8 @@ export async function POST(req: Request) {
       id: newNote._id.toString(),
       title: newNote.title,
       content: newNote.content,
-      updatedAt: newNote.updatedAt.toISOString()
+      updatedAt: newNote.updatedAt.toISOString(),
+      isPinned: newNote.isPinned || false
     }, { status: 201 });
   } catch (error) {
     console.error("Create note error:", error);

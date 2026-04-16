@@ -14,6 +14,10 @@ const NoteSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  isPinned: {
+    type: Boolean,
+    default: false,
+  },
 }, { timestamps: true });
 
 export default mongoose.models.Note || mongoose.model('Note', NoteSchema);

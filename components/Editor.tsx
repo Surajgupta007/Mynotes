@@ -1,6 +1,6 @@
 import { Note } from "@/types/note";
 import { useState, useEffect, useRef } from "react";
-import { Trash2, SquarePen, MoreHorizontal, Type, Sun, Moon, Save, PanelLeft } from "lucide-react";
+import { Trash2, SquarePen, MoreHorizontal, Type, Sun, Moon, Save, PanelLeft, Pin } from "lucide-react";
 import dynamic from "next/dynamic";
 import "react-quill-new/dist/quill.snow.css";
 import { SearchBar } from "./SearchBar";
@@ -162,6 +162,10 @@ export function Editor({ note, onUpdate, onDelete, onCreateNote, searchQuery, on
     minute: "numeric",
   }).format(new Date(note.updatedAt));
 
+  const plainText = content.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim();
+  const wordCount = plainText.length > 0 ? plainText.split(/\s+/).filter(word => word.length > 0).length : 0;
+  const charCount = plainText.length;
+
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden relative">
       {!showFormatting && (
@@ -237,6 +241,13 @@ export function Editor({ note, onUpdate, onDelete, onCreateNote, searchQuery, on
               <Trash2 size={18} />
             </button>
             <button 
+              onClick={() => onUpdate(note.id, { isPinned: !note.isPinned })}
+              className={`${note.isPinned ? 'text-amber-500 hover:text-amber-600' : 'text-gray-500 dark:text-[#8E8E93] hover:text-black dark:hover:text-white'} transition-colors p-1`}
+              title={note.isPinned ? "Unpin Note" : "Pin Note"}
+            >
+              <Pin size={18} fill={note.isPinned ? "currentColor" : "none"} />
+            </button>
+            <button 
               onClick={() => setShowOptions(!showOptions)}
               className="text-gray-500 dark:text-[#8E8E93] hover:text-black dark:hover:text-white transition-colors p-1 relative"
               title="Options"
@@ -307,6 +318,15 @@ export function Editor({ note, onUpdate, onDelete, onCreateNote, searchQuery, on
               className="mt-2"
             />
           </div>
+        </div>
+        
+        {/* Metrics Status Bar */}
+        <div className="flex-none h-8 border-t border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.02] flex items-center justify-between px-6 z-10 text-[10px] uppercase font-bold tracking-widest text-gray-400 dark:text-gray-500 backdrop-blur-sm">
+          <span>Smart Notes</span>
+          <span className="flex items-center gap-4">
+            <span>{wordCount} Words</span>
+            <span>{charCount} Characters</span>
+          </span>
         </div>
       </div>
     </div>

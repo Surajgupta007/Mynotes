@@ -24,6 +24,9 @@ export function Sidebar({
       note.content.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const pinnedNotes = filteredNotes.filter(n => n.isPinned);
+  const unpinnedNotes = filteredNotes.filter(n => !n.isPinned);
+
   return (
     <div className="w-full h-full flex flex-col hide-scrollbar py-2 pt-6 bg-transparent">
       <div className="px-6 mb-6 flex items-center gap-2.5 group cursor-pointer">
@@ -48,20 +51,43 @@ export function Sidebar({
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-4 py-1 space-y-[2px]">
+      <div className="flex-1 overflow-y-auto px-4 py-1 space-y-4">
         {filteredNotes.length === 0 ? (
           <div className="text-center py-6">
             <p className="text-xs text-gray-400 dark:text-[#8E8E93]">No notes found.</p>
           </div>
         ) : (
-          filteredNotes.map((note) => (
-            <NoteCard
-              key={note.id}
-              note={note}
-              isSelected={note.id === selectedNoteId}
-              onClick={() => onSelectNote(note.id)}
-            />
-          ))
+          <>
+            {pinnedNotes.length > 0 && (
+              <div className="space-y-[2px]">
+                <h3 className="text-[10px] font-semibold text-gray-400/80 dark:text-gray-500/80 px-2 uppercase tracking-wider mb-1 text-amber-600 dark:text-amber-500/80">Favorites</h3>
+                {pinnedNotes.map((note) => (
+                  <NoteCard
+                    key={note.id}
+                    note={note}
+                    isSelected={note.id === selectedNoteId}
+                    onClick={() => onSelectNote(note.id)}
+                  />
+                ))}
+              </div>
+            )}
+            
+            {unpinnedNotes.length > 0 && (
+              <div className="space-y-[2px]">
+                {pinnedNotes.length > 0 && (
+                  <h3 className="text-[10px] font-semibold text-gray-400/80 dark:text-gray-500/80 px-2 uppercase tracking-wider mb-1 mt-4">Notes</h3>
+                )}
+                {unpinnedNotes.map((note) => (
+                  <NoteCard
+                    key={note.id}
+                    note={note}
+                    isSelected={note.id === selectedNoteId}
+                    onClick={() => onSelectNote(note.id)}
+                  />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
