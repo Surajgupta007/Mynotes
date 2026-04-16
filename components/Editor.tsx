@@ -169,7 +169,7 @@ export function Editor({ note, onUpdate, onDelete, onCreateNote, searchQuery, on
       )}
 
       {/* Top Apple Title Bar */}
-      <div className="flex-none h-12 flex items-center justify-between px-4 border-b border-[#e5e5e5] dark:border-[#2C2C2E] bg-white dark:bg-[#1E1E1E] z-20 relative">
+      <div className="flex-none h-12 flex items-center justify-between px-4 border-b border-gray-200/50 dark:border-white/5 bg-white/70 dark:bg-[#09090b]/70 backdrop-blur-md z-20 relative shadow-sm">
         <div className="flex items-center gap-2">
           {/* Mock back button */}
           <button className="md:hidden flex items-center text-gray-500 hover:text-black dark:text-[#8E8E93] dark:hover:text-white transition-colors">
@@ -214,8 +214,9 @@ export function Editor({ note, onUpdate, onDelete, onCreateNote, searchQuery, on
             >
               <Save size={18} />
               {saveToast && (
-                <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 min-w-[70px] bg-black/80 text-white text-[11px] font-medium py-1 px-2 rounded-md z-50 animate-fade-in text-center shadow-lg">
-                  Saved!
+                <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 min-w-[80px] bg-white dark:bg-[#1a1a1c] text-gray-900 dark:text-white text-[12px] font-semibold py-1.5 px-3 rounded-full z-50 animate-slide-up-fade text-center shadow-xl ring-1 ring-black/5 dark:ring-white/10 flex items-center justify-center gap-1.5">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Saved
                 </span>
               )}
             </button>
@@ -236,28 +237,28 @@ export function Editor({ note, onUpdate, onDelete, onCreateNote, searchQuery, on
 
             {/* Options Dropdown Map */}
             {showOptions && (
-              <div className="absolute top-10 right-32 w-56 bg-white dark:bg-[#2C2C2E] border border-gray-200 dark:border-[#3A3A3C] shadow-xl rounded-lg py-1 z-50 animate-fade-in">
-                <div className="px-3 py-1.5 border-b border-gray-100 dark:border-[#3A3A3C]">
-                  <p className="text-[11px] font-semibold text-gray-400 dark:text-[#8E8E93] uppercase tracking-wider">Export Document</p>
+              <div className="absolute top-10 right-32 w-56 bg-white/95 dark:bg-[#1a1a1c]/95 backdrop-blur-xl border border-gray-100 dark:border-white/10 shadow-2xl rounded-xl py-1.5 z-50 animate-slide-up-fade">
+                <div className="px-4 py-2 border-b border-gray-100 dark:border-white/5 mb-1">
+                  <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Export Document</p>
                 </div>
                 <button
                   onClick={handleDownloadPDF}
-                 className="w-full text-left px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#3A3A3C] transition-colors"
+                 className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-amber-600 dark:hover:text-amber-500 transition-colors flex items-center gap-2"
                 >
-                  📄 Download as PDF
+                  <span className="opacity-70 text-xs">PDF</span> Download as PDF
                 </button>
-                <div className="border-t border-gray-100 dark:border-[#3A3A3C] my-1"></div>
+                <div className="border-t border-gray-50 dark:border-white/5 my-1 mx-2"></div>
                 <button
                   onClick={() => handleDownload('txt')}
-                 className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3A3C] transition-colors"
+                 className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2"
                 >
-                  Download as Text (.txt)
+                  <span className="opacity-70 text-xs">TXT</span> Download as Text
                 </button>
                 <button
                   onClick={() => handleDownload('html')}
-                 className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3A3C] transition-colors"
+                 className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2"
                 >
-                  Download as HTML (.html)
+                  <span className="opacity-70 text-xs">HTM</span> Download as HTML
                 </button>
               </div>
             )}

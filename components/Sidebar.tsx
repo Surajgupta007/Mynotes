@@ -25,26 +25,26 @@ export function Sidebar({
   );
 
   return (
-    <div className="w-full h-full flex flex-col hide-scrollbar py-2 pt-6">
-      <div className="px-6 mb-6 flex items-center gap-2.5">
-        <div className="w-6 h-6 rounded bg-[#E5B73B] flex items-center justify-center shadow-sm">
-          <NotebookPen size={14} className="text-black" strokeWidth={2.5} />
+    <div className="w-full h-full flex flex-col hide-scrollbar py-2 pt-6 bg-transparent">
+      <div className="px-6 mb-6 flex items-center gap-2.5 group cursor-pointer">
+        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 shadow-md flex items-center justify-center ring-1 ring-black/5 dark:ring-white/10 transition-transform group-hover:scale-105">
+          <NotebookPen size={15} className="text-white" strokeWidth={2.5} />
         </div>
-        <span className="font-semibold text-[15px] text-gray-900 dark:text-white tracking-tight">
+        <span className="font-bold text-[16px] bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent tracking-tight">
           Smart Notes
         </span>
       </div>
 
       <div className="px-4 flex items-center justify-between mb-2">
-        <h2 className="text-[11px] font-semibold text-gray-500 dark:text-[#8E8E93] px-2 uppercase tracking-wider">
+        <h2 className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 px-2 uppercase tracking-wider">
           Notes
         </h2>
         <button 
           onClick={onCreateNote}
-          className="p-1 mr-2 rounded-md hover:bg-gray-200 dark:hover:bg-[#2C2C2E] transition-colors"
+          className="p-1 mr-2 rounded-md hover:bg-gray-200/60 dark:hover:bg-white/5 transition-all hover:scale-105 active:scale-95"
           title="Create New Note"
         >
-          <Plus size={16} className="text-gray-500 dark:text-[#8E8E93]" />
+          <Plus size={16} className="text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors" />
         </button>
       </div>
 
