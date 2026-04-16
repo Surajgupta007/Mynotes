@@ -1,6 +1,6 @@
 import { Note } from "@/types/note";
 import { useState, useEffect, useRef } from "react";
-import { Trash2, SquarePen, MoreHorizontal, Type, Sun, Moon, Save } from "lucide-react";
+import { Trash2, SquarePen, MoreHorizontal, Type, Sun, Moon, Save, PanelLeft } from "lucide-react";
 import dynamic from "next/dynamic";
 import "react-quill-new/dist/quill.snow.css";
 import { SearchBar } from "./SearchBar";
@@ -30,6 +30,8 @@ interface EditorProps {
   onCreateNote: () => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
+  isSidebarOpen: boolean;
+  onToggleSidebar: () => void;
 }
 
 const QUILL_MODULES = {
@@ -56,7 +58,7 @@ const QUILL_FORMATS = [
   'align', 'width', 'style'
 ];
 
-export function Editor({ note, onUpdate, onDelete, onCreateNote, searchQuery, onSearchChange }: EditorProps) {
+export function Editor({ note, onUpdate, onDelete, onCreateNote, searchQuery, onSearchChange, isSidebarOpen, onToggleSidebar }: EditorProps) {
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content);
   const [showFormatting, setShowFormatting] = useState(true);
@@ -171,6 +173,13 @@ export function Editor({ note, onUpdate, onDelete, onCreateNote, searchQuery, on
       {/* Top Apple Title Bar */}
       <div className="flex-none h-12 flex items-center justify-between px-4 border-b border-gray-200/50 dark:border-white/5 bg-white/70 dark:bg-[#09090b]/70 backdrop-blur-md z-20 relative shadow-sm">
         <div className="flex items-center gap-2">
+          <button
+            onClick={onToggleSidebar}
+            className="hidden md:flex p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-white/5 text-gray-500 transition-colors"
+            title={isSidebarOpen ? "Close Sidebar" : "Open Sidebar"}
+          >
+            <PanelLeft size={18} className={!isSidebarOpen ? "text-gray-400" : ""} />
+          </button>
           {/* Mock back button */}
           <button className="md:hidden flex items-center text-gray-500 hover:text-black dark:text-[#8E8E93] dark:hover:text-white transition-colors">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

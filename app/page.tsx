@@ -4,7 +4,7 @@ import { useNotes } from "@/hooks/useNotes";
 import { Sidebar } from "@/components/Sidebar";
 import { Editor } from "@/components/Editor";
 import { useState, useEffect } from "react";
-import { Sparkles } from "lucide-react";
+import { Sparkles, PanelLeft } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
@@ -13,6 +13,7 @@ export default function Home() {
   const { notes, addNote, updateNote, deleteNote, isLoading } = useNotes();
   const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const activeNote = notes.find((note) => note.id === selectedNoteId) || null;
 
@@ -52,8 +53,8 @@ export default function Home() {
       {/* Sidebar - Darker shade in dark mode */}
       <div
         className={`${
-          selectedNoteId ? "hidden md:block" : "block"
-        } w-full md:w-[260px] lg:w-[300px] h-full flex-none bg-[#f4f4f5] dark:bg-[#040405] border-r border-[#e5e5e5] dark:border-white/5`}
+          !isSidebarOpen ? "hidden" : selectedNoteId ? "hidden md:block" : "block"
+        } w-full md:w-[260px] lg:w-[300px] h-full flex-none bg-[#f4f4f5] dark:bg-[#040405] border-r border-[#e5e5e5] dark:border-white/5 transition-all duration-300`}
       >
         <Sidebar
           notes={notes}
@@ -79,10 +80,25 @@ export default function Home() {
              onCreateNote={handleCreateNote}
              searchQuery={searchQuery}
              onSearchChange={setSearchQuery}
+             isSidebarOpen={isSidebarOpen}
+             onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
            />
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-gray-500 relative">
              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent opacity-50 dark:opacity-20 pointer-events-none"></div>
+             
+             {!isSidebarOpen && (
+               <div className="absolute top-4 left-4 z-20">
+                 <button
+                   onClick={() => setIsSidebarOpen(true)}
+                   className="hidden md:flex p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-white/5 text-gray-500 transition-colors"
+                   title="Open Sidebar"
+                 >
+                   <PanelLeft size={18} />
+                 </button>
+               </div>
+             )}
+             
              <div className="w-20 h-20 mb-6 rounded-2xl bg-white dark:bg-white/5 shadow-xl border border-gray-100 dark:border-white/10 flex items-center justify-center animate-slide-up-fade backdrop-blur-md">
                  <Sparkles size={32} className="text-amber-500 drop-shadow-sm" />
              </div>
